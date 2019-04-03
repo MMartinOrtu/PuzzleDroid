@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">PuzzleDroid</string>
     <string name="help_name">Ayuda</string>
+    <string name="new_game_name">Nueva partida</string>
 </resources>

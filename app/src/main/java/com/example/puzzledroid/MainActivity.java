@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private static int SPLASH_TIME_OUT = 4000;
@@ -31,6 +32,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.help:
+                Intent help = new Intent(this, HelpActivity.class);
+                startActivity(help);
+                break;
+            case R.id.new_game:
+
+                break;
+            default:
+
+
+        }
         return super.onOptionsItemSelected(item);
     }
+
+
 }
