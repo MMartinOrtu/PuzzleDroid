@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PuzzleDroid</string>
+    <string name="exit_app">Salir</string>
+    <string name="home_name">Bienvenido a PuzzleDroid</string>
+    <string name="help_name">Ayuda</string>
+    <string name="new_game_name">Nueva partida</string>
+    <string name="load_image">Cargar imagen</string>
+    <string name="divide_image">Dividir imagen</string>
+    <string name="timer_label">Tiempo de resolución del puzzle: </string>
+</resources>

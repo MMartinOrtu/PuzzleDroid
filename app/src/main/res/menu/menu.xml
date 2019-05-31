@@ -11,4 +11,9 @@
     android:title="@string/new_game_name"
     app:showAsAction="never">
 </item>
+<item
+    android:id="@+id/exit"
+    android:title="@string/exit_app"
+    app:showAsAction="never">
+</item>
 </menu>

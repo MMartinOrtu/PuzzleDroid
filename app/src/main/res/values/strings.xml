@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">PuzzleDroid</string>
-    <string name="help_name">Ayuda</string>
-    <string name="new_game_name">Nueva partida</string>
+    <string name="exit_app">Exit</string>
+    <string name="home_name">Wellcome to PuzzleDroid</string>
+    <string name="help_name">Help</string>
+    <string name="new_game_name">New Game</string>
+    <string name="load_image">Load image</string>
+    <string name="divide_image">Divide image</string>
+    <string name="timer_label">Time resolving the puzzle: </string>
 </resources>
