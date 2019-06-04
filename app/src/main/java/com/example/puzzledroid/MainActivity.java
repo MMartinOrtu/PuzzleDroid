@@ -1,5 +1,7 @@
 package com.example.puzzledroid;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
@@ -29,6 +31,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.Calendar;
+import java.util.Date;
 
 import static java.lang.Math.abs;
 
@@ -49,9 +53,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private int firstChunkSelected = -1;
     private int secondChunkSelected;
     private Chronometer timer;
-    long elapsedTime;
+    long stopOffset;
     String TAG = "TAG";
     Boolean resume = false;
+    BBDD_Helper helperDB;
+    Date currentTime;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         timer = (Chronometer) findViewById(R.id.Timer);
         labelTimer = (TextView) findViewById(R.id.timerLabel);
-        timer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+       /* timer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             public void onChronometerTick(Chronometer arg0) {
                 if (!resume) {
                     long minutes = ((SystemClock.elapsedRealtime() - timer.getBase())/1000) / 60;
@@ -91,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     Log.d(TAG, "onChronometerTick: " + minutes + " : " + seconds);
                 }
             }
-        });
+        });*/
 
     }
 
@@ -153,6 +160,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             case R.id.new_game:
                 Intent main = new Intent(this, MainActivity.class);
                 startActivity(main);
+                break;
+            case R.id.top_score:
+                Intent top_score = new Intent(this, ScoreActivity.class);
+                startActivity(top_score);
                 break;
             case R.id.exit:
                 this.finish();
@@ -299,8 +310,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                correctChunkImages ++;
            }
            if (correctChunkImages == originalImages.size()){
+               helperDB = new BBDD_Helper(this);
+               currentTime = Calendar.getInstance().getTime();
                timer.stop();
-               Toast.makeText(this,"Your win!", Toast.LENGTH_LONG).show();
+               stopOffset = SystemClock.elapsedRealtime() - timer.getBase();
+
+               Toast.makeText(this,"Your win!: ", Toast.LENGTH_LONG).show();
+               SQLiteDatabase db = helperDB.getWritableDatabase();
+               ContentValues values = new ContentValues();
+               values.put(Score_BBDD.COLUMN_2, stopOffset);
+               values.put(Score_BBDD.COLUMN_3, currentTime.toString());
+
+
+               db.insert(Score_BBDD.TABLE_NAME, null, values);
            }
         }
     }

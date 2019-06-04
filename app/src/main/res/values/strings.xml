@@ -7,4 +7,5 @@
     <string name="load_image">Load image</string>
     <string name="divide_image">Divide image</string>
     <string name="timer_label">Time resolving the puzzle: </string>
+    <string name="top_score">Top score</string>
 </resources>

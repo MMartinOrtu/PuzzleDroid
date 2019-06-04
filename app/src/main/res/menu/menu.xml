@@ -12,6 +12,11 @@
     app:showAsAction="never">
 </item>
 <item
+    android:id="@+id/top_score"
+    android:title="@string/top_score"
+    app:showAsAction="never">
+</item>
+<item
     android:id="@+id/exit"
     android:title="@string/exit_app"
     app:showAsAction="never">

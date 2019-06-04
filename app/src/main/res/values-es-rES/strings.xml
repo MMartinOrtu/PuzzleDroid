@@ -8,4 +8,5 @@
     <string name="load_image">Cargar imagen</string>
     <string name="divide_image">Dividir imagen</string>
     <string name="timer_label">Tiempo de resolución del puzzle: </string>
+    <string name="top_score">Top score</string>
 </resources>
