@@ -175,11 +175,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 break;
             case R.id.top_score:
                 Intent top_score = new Intent(this, ScoreActivity.class);
-              //  top_score.putExtra("difficulty", difficulty);
+                top_score.putExtra("difficulty", difficulty);
                 startActivity(top_score);
                 break;
             case R.id.exit:
-                music.release();
                 this.finish();
                 break;
             default:
@@ -332,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                timer.stop();
                stopOffset = SystemClock.elapsedRealtime() - timer.getBase();
 
-               Toast.makeText(this,"Your win!", Toast.LENGTH_LONG).show();
+               Toast.makeText(this,"You win!", Toast.LENGTH_LONG).show();
 
                SQLiteDatabase db = helperDB.getWritableDatabase();
                ContentValues values = new ContentValues();

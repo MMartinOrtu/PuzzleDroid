@@ -45,7 +45,7 @@ public class ScoreActivity extends AppCompatActivity implements View.OnClickList
         five.setOnClickListener(this);
 
         Bundle difficultyData = getIntent().getExtras();
-
+        Toast.makeText(this,"Your win!"+difficulty, Toast.LENGTH_LONG).show();
         difficulty = difficultyData.getInt("difficulty");
         generateScore(difficulty);
     }
