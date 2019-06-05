@@ -9,4 +9,9 @@
     <string name="divide_image">Dividir imagen</string>
     <string name="timer_label">Tiempo de resolución del puzzle: </string>
     <string name="top_score">Top score</string>
+    <string name="three_times_three">3x3</string>
+    <string name="four_times_four">4x4</string>
+    <string name="five_times_five">5x5</string>
+    <string name="time">Tiempo</string>
+    <string name="date">Fecha</string>
 </resources>

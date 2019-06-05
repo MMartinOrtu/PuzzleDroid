@@ -2,6 +2,7 @@ package com.example.puzzledroid;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     RadioButton five;
     RadioGroup numbers_group;
     Button btnLoad;
+    Button btnNewGame;
+    Button btnTopscore;
     GridView mGridView;
     TextView labelTimer;
     private ArrayList<ImageData> chunkedImages;
@@ -52,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private ImageAdapter imageAdapter;
     private int firstChunkSelected = -1;
     private int secondChunkSelected;
+    public int difficulty=3;
+
     private Chronometer timer;
     long stopOffset;
     String TAG = "TAG";
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     BBDD_Helper helperDB;
     Date currentTime;
 
+    MediaPlayer music;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,44 +73,35 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         Toolbar toolbar =(Toolbar) findViewById(R.id.app_action_bar);
         setSupportActionBar(toolbar);
 
+
+
         image = (ImageView) findViewById(R.id.imageId);
         btnDivide = (TextView) findViewById(R.id.divideImage);
         btnLoad = (Button) findViewById(R.id.btnLoadImage);
+        btnNewGame = (Button) findViewById(R.id.btn_newgame);
+        btnTopscore = (Button) findViewById(R.id.btn_topscore);
         three = (RadioButton) findViewById(R.id.three);
         four = (RadioButton) findViewById(R.id.four);
         five = (RadioButton) findViewById(R.id.five);
         numbers_group = (RadioGroup) findViewById(R.id.group_numbers);
+
         three.setOnClickListener(this);
         four.setOnClickListener(this);
         five.setOnClickListener(this);
         btnLoad.setOnClickListener(this);
+        btnNewGame.setOnClickListener(this);
+        btnTopscore.setOnClickListener(this);
 
         mGridView = (GridView) findViewById(R.id.gridview);
         mGridView.setOnItemClickListener(this);
 
         timer = (Chronometer) findViewById(R.id.Timer);
         labelTimer = (TextView) findViewById(R.id.timerLabel);
-       /* timer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            public void onChronometerTick(Chronometer arg0) {
-                if (!resume) {
-                    long minutes = ((SystemClock.elapsedRealtime() - timer.getBase())/1000) / 60;
-                    long seconds = ((SystemClock.elapsedRealtime() - timer.getBase())/1000) % 60;
-                    elapsedTime = SystemClock.elapsedRealtime();
-                    Log.d(TAG, "onChronometerTick: " + minutes + " : " + seconds);
-                } else {
-                    long minutes = ((elapsedTime - timer.getBase())/1000) / 60;
-                    long seconds = ((elapsedTime - timer.getBase())/1000) % 60;
-                    elapsedTime = elapsedTime + 1000;
-                    Log.d(TAG, "onChronometerTick: " + minutes + " : " + seconds);
-                }
-            }
-        });*/
-
     }
 
     @Override
     public void onClick(View v) {
-        int chunNumber = 0;
+        int chunkNumber = 0;
         image = (ImageView) findViewById(R.id.imageId);
 
         switch (v.getId()) {
@@ -112,30 +109,45 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 if (image.getDrawable() == null){
                     break;
                 }
-                chunNumber = 9;
+                chunkNumber = 9;
+                difficulty = 3;
                 break;
             }
             case  R.id.four: {
                 if (image.getDrawable() == null){
                     break;
                 }
-                chunNumber = 16;
+                chunkNumber = 16;
+                difficulty = 4;
                 break;
             }
             case  R.id.five: {
                 if (image.getDrawable() == null){
                     break;
                 }
-                chunNumber = 25;
+                chunkNumber = 25;
+                difficulty = 5;
                 break;
             }
             case R.id.btnLoadImage: {
                 loadImage();
                 break;
             }
+            case R.id.btn_newgame: {
+                Intent main = new Intent(this, MainActivity.class);
+                startActivity(main);
+                break;
+            }
+            case R.id.btn_topscore: {
+                Intent top_score = new Intent(this, ScoreActivity.class);
+                Toast.makeText(this,"Your win!"+difficulty, Toast.LENGTH_LONG).show();
+                top_score.putExtra("difficulty", difficulty);
+                startActivity(top_score);
+                break;
+            }
         }
-        if (chunNumber > 0){
-            splitImage(image, chunNumber);
+        if (chunkNumber > 0){
+            splitImage(image, chunkNumber);
             timer.setBase(SystemClock.elapsedRealtime());
             timer.start();
         }
@@ -163,9 +175,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 break;
             case R.id.top_score:
                 Intent top_score = new Intent(this, ScoreActivity.class);
+              //  top_score.putExtra("difficulty", difficulty);
                 startActivity(top_score);
                 break;
             case R.id.exit:
+                music.release();
                 this.finish();
                 break;
             default:
@@ -231,6 +245,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         return ret;
     }
     private void splitImage(ImageView image, int chunkNumbers) {
+        music = MediaPlayer.create(MainActivity.this, R.raw.musicbc2);
+        music.start();
 
         int rows,cols;
         rows = cols = (int) Math.sqrt(chunkNumbers);
@@ -312,17 +328,23 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
            if (correctChunkImages == originalImages.size()){
                helperDB = new BBDD_Helper(this);
                currentTime = Calendar.getInstance().getTime();
+               String date = DateFormat.format("dd-MM-yyy", currentTime).toString();
                timer.stop();
                stopOffset = SystemClock.elapsedRealtime() - timer.getBase();
 
-               Toast.makeText(this,"Your win!: ", Toast.LENGTH_LONG).show();
+               Toast.makeText(this,"Your win!", Toast.LENGTH_LONG).show();
+
                SQLiteDatabase db = helperDB.getWritableDatabase();
                ContentValues values = new ContentValues();
                values.put(Score_BBDD.COLUMN_2, stopOffset);
-               values.put(Score_BBDD.COLUMN_3, currentTime.toString());
-
+               values.put(Score_BBDD.COLUMN_3, date);
+               values.put(Score_BBDD.COLUMN_4, difficulty);
 
                db.insert(Score_BBDD.TABLE_NAME, null, values);
+
+               btnNewGame.setVisibility(View.VISIBLE);
+               btnTopscore.setVisibility(View.VISIBLE);
+               music.release();
            }
         }
     }

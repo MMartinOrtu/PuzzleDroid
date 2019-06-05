@@ -34,6 +34,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:text="@string/load_image"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/divideImage"
         app:layout_constraintHorizontal_bias="0.333"
@@ -51,6 +52,7 @@
         android:text="@string/divide_image"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/btnLoadImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageId"
@@ -63,6 +65,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/divideImage"
         app:layout_constraintStart_toStartOf="@+id/divideImage"
@@ -73,25 +76,25 @@
             android:id="@+id/three"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3x3" />
+            android:text="@string/three_times_three" />
 
         <RadioButton
             android:id="@+id/four"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4x4" />
+            android:text="@string/four_times_four" />
 
         <RadioButton
             android:id="@+id/five"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5x5" />
+            android:text="@string/five_times_five" />
     </RadioGroup>
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridview"
         android:layout_width="358dp"
-        android:layout_height="525dp"
+        android:layout_height="413dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -104,7 +107,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/timerLabel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_action_bar"
         app:layout_constraintVertical_bias="0.1" />
@@ -122,13 +125,14 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timerLabel" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/timerLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/timer_label"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
@@ -137,6 +141,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridview" />
+        app:layout_constraintTop_toBottomOf="@+id/imageId"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/btn_newgame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/new_game_name"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/timerLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_topscore"
+        app:layout_constraintHorizontal_bias="0.264"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridview"
+        app:layout_constraintVertical_bias="0.932" />
+
+    <Button
+        android:id="@+id/btn_topscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="76dp"
+        android:text="@string/top_score"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/timerLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.957"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridview"
+        app:layout_constraintVertical_bias="0.932" />
 
 </android.support.constraint.ConstraintLayout>
